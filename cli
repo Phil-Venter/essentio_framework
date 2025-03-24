@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Essentio\Core\Application;
+
+Application::cli(__DIR__);
+
+require_once Application::fromBase('bootstrap.php');
+require_once Application::fromBase('routes/cli.php');
