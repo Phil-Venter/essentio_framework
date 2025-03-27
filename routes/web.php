@@ -1,3 +1,3 @@
 <?php
 
-route('GET', '/ping', fn() => text('PONG'));
+get("/ping", fn() => text("PONG"));

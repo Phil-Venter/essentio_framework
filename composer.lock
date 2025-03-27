@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Phil-Venter/essentio_core.git",
-                "reference": "1c0d20b17065bf11662870af2043ac6fd43a77e0"
+                "reference": "1abaad9efd2278170066baee2c47a3552fd55dab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Phil-Venter/essentio_core/zipball/1c0d20b17065bf11662870af2043ac6fd43a77e0",
-                "reference": "1c0d20b17065bf11662870af2043ac6fd43a77e0",
+                "url": "https://api.github.com/repos/Phil-Venter/essentio_core/zipball/1abaad9efd2278170066baee2c47a3552fd55dab",
+                "reference": "1abaad9efd2278170066baee2c47a3552fd55dab",
                 "shasum": ""
             },
             "require": {
@@ -34,7 +34,7 @@
                     "src/functions.php"
                 ],
                 "psr-4": {
-                    "Essentio\\Core\\": "src/classes"
+                    "Essentio\\Core\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -45,7 +45,7 @@
                 "issues": "https://github.com/Phil-Venter/essentio_core/issues",
                 "source": "https://github.com/Phil-Venter/essentio_core/tree/main"
             },
-            "time": "2025-03-24T16:48:15+00:00"
+            "time": "2025-03-27T14:52:22+00:00"
         },
         {
             "name": "essentio/database",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Phil-Venter/essentio_database.git",
-                "reference": "ee35c5e4abe2344c684cd0f79da756117c83347b"
+                "reference": "fcf533a262ca761bf87bb52f43a51ef6e9de7ef9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Phil-Venter/essentio_database/zipball/ee35c5e4abe2344c684cd0f79da756117c83347b",
-                "reference": "ee35c5e4abe2344c684cd0f79da756117c83347b",
+                "url": "https://api.github.com/repos/Phil-Venter/essentio_database/zipball/fcf533a262ca761bf87bb52f43a51ef6e9de7ef9",
+                "reference": "fcf533a262ca761bf87bb52f43a51ef6e9de7ef9",
                 "shasum": ""
             },
             "default-branch": true,
@@ -76,7 +76,7 @@
                 "issues": "https://github.com/Phil-Venter/essentio_database/issues",
                 "source": "https://github.com/Phil-Venter/essentio_database/tree/main"
             },
-            "time": "2025-03-24T16:58:43+00:00"
+            "time": "2025-03-24T17:24:54+00:00"
         }
     ],
     "packages-dev": [],

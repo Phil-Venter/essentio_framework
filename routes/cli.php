@@ -1,41 +1,38 @@
 <?php
 
 use Essentio\Core\Argument;
+use Essentio\Core\Environment;
 
 /**
  * ============================================================================
  *
- * START DEV SERVER
+ * LOCAL DEV SERVER
  *
  * ============================================================================
  */
 
-command('dev:serve', function (Argument $argv) {
+command("dev:serve", function (Argument $argv) {
     $flags = [
-        'apc.enable_cli'                  => 1,
-        'apc.enabled'                     => 1,
-        'apc.shm_size'                    => '64M',
-        'opcache.enable_cli'              => 1,
-        'opcache.enable'                  => 1,
-        'opcache.fast_shutdown'           => 1,
-        'opcache.interned_strings_buffer' => 16,
-        'opcache.jit_buffer_size'         => '128M',
-        'opcache.jit'                     => 'tracing',
-        'opcache.max_accelerated_files'   => 1000,
-        'opcache.max_wasted_percentage'   => 10,
-        'opcache.memory_consumption'      => 192,
-        'opcache.revalidate_freq'         => 0,
-        'opcache.validate_timestamps'     => 1,
+        "opcache.enable_cli" => 1,
+        "opcache.enable" => 1,
+        "opcache.fast_shutdown" => 1,
+        "opcache.interned_strings_buffer" => 16,
+        "opcache.jit_buffer_size" => "128M",
+        "opcache.jit" => "tracing",
+        "opcache.max_accelerated_files" => 1000,
+        "opcache.max_wasted_percentage" => 10,
+        "opcache.memory_consumption" => 192,
+        "opcache.revalidate_freq" => 0,
+        "opcache.validate_timestamps" => 1,
     ];
 
-    $compiled = implode(' ', array_map(
-        fn($k, $v) => sprintf('-d%s=%s', $k, $v),
-        array_keys($flags),
-        array_values($flags)
-    ));
+    $compiled = implode(
+        " ",
+        array_map(fn($k, $v) => sprintf("-d%s=%s", $k, $v), array_keys($flags), array_values($flags))
+    );
 
-    $port = $argv->options['port'] ?? $argv->flags['p'] ?? 8080;
-    $host = $argv->options['host'] ?? $argv->flags['h'] ?? 'localhost';
+    $port = $argv->options["port"] ?? ($argv->flags["p"] ?? 8080);
+    $host = $argv->options["host"] ?? ($argv->flags["h"] ?? "localhost");
 
     shell_exec(sprintf("php %s -S %s:%s -t public", $compiled, $host, $port));
 });
@@ -48,42 +45,81 @@ command('dev:serve', function (Argument $argv) {
  * ============================================================================
  */
 
-command('log:clear', function (Argument $argv) {
-    foreach ($argv->positional as $file) {
-        file_put_contents($file, '');
+function getLogFiles(Argument $argv): array
+{
+    $files = $argv->positional;
+
+    if (empty($files)) {
+        foreach (app(Environment::class)->data as $key => $value) {
+            if (str_contains($key, "_LOG_FILE")) {
+                $files[] = $value;
+            }
+        }
+    }
+
+    if (empty($files)) {
+        $files[] = Application::fromBase("app.log");
+    }
+
+    return $files;
+}
+
+command("log:clear", function (Argument $argv) {
+    foreach (getLogFiles($argv) as $file) {
+        file_put_contents($file, "");
     }
 });
 
-command('log:watch', function (Argument $argv) {
-    $descriptors = [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']];
-    $filenameLength = 0;
+command("log:watch", function (Argument $argv) {
+    set_time_limit(0);
 
-    foreach ($argv->positional as $file) {
-        $escapedFile = escapeshellarg($file);
-        $process = proc_open("tail -n 5 -f $escapedFile", $descriptors, $procPipes);
+    $positions = [];
+    $len = 0;
 
-        if (is_resource($process)) {
-            stream_set_blocking($procPipes[1], false);
-            $processes[] = $process;
-            $pipes[] = $procPipes[1];
-
-            $filename = basename($file);
-            $pipeToFile[(int)$procPipes[1]] = $filename;
-            $filenameLength = max($filenameLength, strlen($filename));
+    foreach (getLogFiles($argv) as $file) {
+        if (!file_exists($file)) {
+            touch($file);
         }
+
+        $handle = fopen($file, "r");
+
+        if (!$handle) {
+            continue;
+        }
+
+        $filename = basename($file);
+        $len = max($len, strlen($filename));
+        fseek($handle, 0, SEEK_END);
+
+        $positions[$file] = [
+            "name" => $filename,
+            "handle" => $handle,
+            "position" => ftell($handle),
+        ];
     }
 
     while (true) {
-        $read = $pipes;
+        foreach ($positions as $file => &$info) {
+            clearstatcache(true, $file);
+            $currentSize = filesize($file);
 
-        if (stream_select($read, $write, $except, 0, 200000) > 0) {
-            foreach ($read as $r) {
-                $line = fgets($r);
+            // File was truncated
+            if ($currentSize < $info["position"]) {
+                fseek($info["handle"], 0, SEEK_SET);
+                $info["position"] = 0;
+            }
+            // New data in file
+            elseif ($currentSize > $info["position"]) {
+                fseek($info["handle"], $info["position"]);
 
-                if ($line !== false) {
-                    log_cli("[ %-{$filenameLength}s ] %s", $pipeToFile[(int)$r], trim($line));
+                while (($line = fgets($info["handle"])) !== false) {
+                    log_cli("[ %{$len}s ] %s", $info["name"], rtrim($line, "\n"));
                 }
+
+                $info["position"] = ftell($info["handle"]);
             }
         }
+
+        usleep(100_000);
     }
 });
