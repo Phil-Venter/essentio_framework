@@ -1,5 +1,6 @@
 <?php
 
+use Essentio\Core\Application;
 use Essentio\Core\Argument;
 use Essentio\Core\Environment;
 
