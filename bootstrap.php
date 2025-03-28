@@ -5,7 +5,7 @@ use Essentio\Core\Container;
 use Essentio\Core\Environment;
 use Essentio\Database\Query;
 
-app(Environment::class)->load(Application::fromBase('.env'));
+app(Environment::class)->load(Application::fromBase(".env"));
 
 /**
  * ============================================================================
@@ -15,5 +15,13 @@ app(Environment::class)->load(Application::fromBase('.env'));
  * ============================================================================
  */
 
-bind(PDO::class, fn() => new PDO(sprintf('sqlite:%s', env('DB_DATABASE', 'database.sqlite'))))->once = true;
-bind(Query::class, fn(Container $c) => new Query($c->get(PDO::class)));
+bind(PDO::class, function (): PDO {
+    $path = env("DB_DATABASE", "storage/database.sqlite");
+    $realpath = Application::fromBase($path);
+    return new PDO(sprintf("sqlite:%s", $realpath));
+})->once = true;
+
+bind(Query::class, function (Container $c): Query {
+    $pdo = $c->get(PDO::class);
+    return new Query($pdo);
+});
