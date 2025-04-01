@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Phil-Venter/essentio_core.git",
-                "reference": "26e46cb7fbe0610efde725136b041951b100b852"
+                "reference": "eaa852fb9353476fadf75c295fcb1c5c3f4267ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Phil-Venter/essentio_core/zipball/26e46cb7fbe0610efde725136b041951b100b852",
-                "reference": "26e46cb7fbe0610efde725136b041951b100b852",
+                "url": "https://api.github.com/repos/Phil-Venter/essentio_core/zipball/eaa852fb9353476fadf75c295fcb1c5c3f4267ea",
+                "reference": "eaa852fb9353476fadf75c295fcb1c5c3f4267ea",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,8 @@
             },
             "require-dev": {
                 "nette/php-generator": "^4.1",
-                "nikic/php-parser": "^5.4"
+                "nikic/php-parser": "^5.4",
+                "pestphp/pest": "3.x-dev"
             },
             "default-branch": true,
             "type": "library",
@@ -45,7 +46,7 @@
                 "issues": "https://github.com/Phil-Venter/essentio_core/issues",
                 "source": "https://github.com/Phil-Venter/essentio_core/tree/main"
             },
-            "time": "2025-03-29T07:00:21+00:00"
+            "time": "2025-04-01T13:40:02+00:00"
         },
         {
             "name": "essentio/database",
