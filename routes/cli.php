@@ -14,17 +14,27 @@ use Essentio\Core\Environment;
 
 command("dev:serve", function (Argument $argv) {
     $flags = [
-        "opcache.enable_cli" => 1,
+        // "apc.enabled" => 1,
+        // "apc.enable_cli" => 1,
+        // "apc.shm_size" => "128M",
+        // "apc.ttl" => 3600,
+
         "opcache.enable" => 1,
+        "opcache.enable_cli" => 1,
         "opcache.fast_shutdown" => 1,
         "opcache.interned_strings_buffer" => 16,
         "opcache.jit_buffer_size" => "128M",
-        "opcache.jit" => "tracing",
+        // "opcache.jit" => "tracing",
         "opcache.max_accelerated_files" => 1000,
         "opcache.max_wasted_percentage" => 10,
         "opcache.memory_consumption" => 192,
         "opcache.revalidate_freq" => 0,
         "opcache.validate_timestamps" => 1,
+
+        // "xdebug.mode" => "profile",
+        // "xdebug.start_with_request" => "yes",
+        // "xdebug.log_level" => 10,
+        // "xdebug.output_dir" => Application::fromBase(""),
     ];
 
     $compiled = implode(

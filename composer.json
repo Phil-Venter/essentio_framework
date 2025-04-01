@@ -2,6 +2,11 @@
     "name": "essentio/framework",
     "license": "MIT",
     "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Essentio\\Framework\\": "src/"
+        }
+    },
     "require": {
         "essentio/core": "dev-main",
         "essentio/database": "dev-main"

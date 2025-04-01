@@ -1,12 +1,15 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . "/../vendor/autoload.php";
 
 use Essentio\Core\Application;
+use Essentio\Framework\SimpleApcuSessionHandler;
 
-Application::http(__DIR__ . '/..');
+// session_set_save_handler(new SimpleApcuSessionHandler(), true);
 
-require_once Application::fromBase('bootstrap.php');
-require_once Application::fromBase('routes/web.php');
+Application::http(__DIR__ . "/..");
+
+require_once Application::fromBase("bootstrap.php");
+require_once Application::fromBase("routes/web.php");
 
 Application::run();
