@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Phil-Venter/essentio_core.git",
-                "reference": "eaa852fb9353476fadf75c295fcb1c5c3f4267ea"
+                "reference": "3c0bfd9214093498aa370731b6b6e2a050744705"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Phil-Venter/essentio_core/zipball/eaa852fb9353476fadf75c295fcb1c5c3f4267ea",
-                "reference": "eaa852fb9353476fadf75c295fcb1c5c3f4267ea",
+                "url": "https://api.github.com/repos/Phil-Venter/essentio_core/zipball/3c0bfd9214093498aa370731b6b6e2a050744705",
+                "reference": "3c0bfd9214093498aa370731b6b6e2a050744705",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "issues": "https://github.com/Phil-Venter/essentio_core/issues",
                 "source": "https://github.com/Phil-Venter/essentio_core/tree/main"
             },
-            "time": "2025-04-01T13:40:02+00:00"
+            "time": "2025-04-01T15:51:11+00:00"
         },
         {
             "name": "essentio/database",
